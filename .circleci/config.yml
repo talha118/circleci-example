@@ -15,7 +15,7 @@ workflows:
 jobs:
   build_test:
     docker:
-      circle/node:12.0
+      - circle/node:12.0
     steps:
       - checkout
       - run:
