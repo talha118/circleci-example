@@ -13,8 +13,8 @@ jobs:
           name: npm install
           command: "npm install"
       - run:
-        name: run tests
-        command: "mocha"
+          name: run tests
+          command: "mocha"
   build:
     machine:
       image: ubuntu-1604:201903-01
