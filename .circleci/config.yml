@@ -11,7 +11,7 @@ jobs:
       - checkout
       - steps:
           - add_ssh_keys:
-              fingerprints:
+              - fingerprints:
                 - "67:02:50:27:32:6c:a1:e1:25:3f:0d:72:e5:2d:2c:7e"
       - run:
           name: Deploy
