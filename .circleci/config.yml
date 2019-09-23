@@ -3,6 +3,15 @@ general:
   branches:
     only:
       - master
+
+workflows:
+  build_test_deploy:
+    jobs:
+      - build_test
+      - build:
+          requires:
+            - build_test
+
 jobs:
   build_test:
     docker:
@@ -36,10 +45,3 @@ jobs:
               npm i
               pm2 start server.js
             EOF
-workflows:
-  build_test_deploy:
-    jobs:
-      - build_test
-      - build:
-          requires:
-            - build_test
