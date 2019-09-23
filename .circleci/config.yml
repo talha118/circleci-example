@@ -42,10 +42,10 @@ jobs:
             ssh ${EC2_USERNAME}@${EC2_PUBLIC_DNS} \<< EOF
               if [ -d "~/example" ]; then rm -Rf ~/example; fi
             EOF
-            scp -r /home/circleci/project ${EC2_USERNAME}@${EC2_PUBLIC_DNS}:/home/ubuntu/example/
-            ssh ${EC2_USERNAME}@${EC2_PUBLIC_DNS} \<< EOF
-              pm2 stop all
-              cd ~/example/project
-              npm i
-              pm2 start server.js
-            EOF
+#            scp -r /home/circleci/project ${EC2_USERNAME}@${EC2_PUBLIC_DNS}:/home/ubuntu/example/
+#            ssh ${EC2_USERNAME}@${EC2_PUBLIC_DNS} \<< EOF
+#              pm2 stop all
+#              cd ~/example/project
+#              npm i
+#              pm2 start server.js
+#            EOF
