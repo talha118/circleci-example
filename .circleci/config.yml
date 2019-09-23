@@ -18,8 +18,9 @@ jobs:
             EC2_USERNAME=ubuntu
             EC2_PUBLIC_DNS=ec2-35-158-2-108.eu-central-1.compute.amazonaws.com
             scp -r /home/circleci/project ubuntu@ec2-35-158-2-108.eu-central-1.compute.amazonaws.com:/home/ubuntu/example/
-            ssh ubuntu@ec2-35-158-2-108.eu-central-1.compute.amazonaws.com bash -c '
-            cd ~/example
-            npm i
-            pm2 server.js'
+            ssh ubuntu@ec2-35-158-2-108.eu-central-1.compute.amazonaws.com << EOF
+              cd ~/example
+              npm i
+              pm2 server.js
+            EOF
 
