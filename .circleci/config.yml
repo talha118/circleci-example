@@ -21,6 +21,6 @@ jobs:
             ssh ubuntu@ec2-35-158-2-108.eu-central-1.compute.amazonaws.com << EOF
               cd ~/example/project
               npm i
-              pm2 server.js
+              pm2 start server.js
             EOF
 
