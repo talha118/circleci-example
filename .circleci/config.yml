@@ -45,7 +45,7 @@ jobs:
             scp -r /home/circleci/project ${EC2_USERNAME}@${EC2_PUBLIC_DNS}:/home/ubuntu/example/
             ssh ${EC2_USERNAME}@${EC2_PUBLIC_DNS} \<< EOF
               pm2 stop all
-              cd ~/example/project
+              cd ~/example
               npm i
               pm2 start server.js
             EOF
