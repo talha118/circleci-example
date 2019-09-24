@@ -9,7 +9,6 @@ workflows:
     jobs:
       - build_test
       - build:
-          context: aws
           requires:
             - build_test
 orbs:
@@ -30,13 +29,15 @@ jobs:
           command: |
             npm test
   build:
-    executor: aws-cli/default
+    machine:
+      image: ubuntu-1604:201903-01
     steps:
       - checkout
       - add_ssh_keys:
           fingerprints:
             - "67:02:50:27:32:6c:a1:e1:25:3f:0d:72:e5:2d:2c:7e"
-      - aws-cli/setup
+      - aws-cli/setup:
+          profile-name: approcket
       - run:
           name: Deploy
           command: |
