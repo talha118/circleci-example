@@ -3,17 +3,8 @@ general:
   branches:
     only:
       - master
-
-workflows:
-  build_test_deploy:
-    jobs:
-      - build_test
-      - build:
-          requires:
-            - build_test
 orbs:
   aws-cli: circleci/aws-cli@0.1.16
-
 jobs:
   build_test:
     docker:
@@ -41,6 +32,7 @@ jobs:
       - run:
           name: Deploy
           command: |
+            PUBLIC_IP=$(curl ipinfo.io/ip)
             AWS_REGION=eu-central-1
             SG_ID=sg-07a5adc398dcb56b4
             aws ec2 authorize-security-group-ingress --group-id $SG_ID \
@@ -60,3 +52,11 @@ jobs:
             EOF
             aws ec2 revoke-security-group-ingress --region $AWS_REGION --group-id $SG_ID \
                   --protocol tcp --port 22 --cidr $PUBLIC_IP/24
+workflows:
+  version: 2
+  build_test_deploy:
+    jobs:
+      - build_test
+      - build:
+          requires:
+            - build_test
