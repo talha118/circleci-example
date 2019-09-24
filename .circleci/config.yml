@@ -35,8 +35,7 @@ jobs:
             PUBLIC_IP=$(curl ipinfo.io/ip)
             AWS_REGION=eu-central-1
             SG_ID=sg-07a5adc398dcb56b4
-            aws --output json ec2 authorize-security-group-ingress --group-id sg-07a5adc398dcb56b4 \
-              --protocol tcp --port 22 --cidr $(curl ipinfo.io/ip)/24
+            aws ec2 authorize-security-group-ingress --group-id $SG_ID --protocol tcp --port 22 --cidr $PUBLIC_IP/24
             sleep 5
             EC2_USERNAME=ubuntu
             EC2_PUBLIC_DNS=ec2-35-158-2-108.eu-central-1.compute.amazonaws.com
