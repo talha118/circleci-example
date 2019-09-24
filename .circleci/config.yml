@@ -42,7 +42,7 @@ jobs:
             ./awscli-bundle/install -b ~/bin/aws
             PUBLIC_IP=$(curl ipinfo.io/ip)
             AWS_REGION=eu-central-1
-            SG_ID=sg-XXXXXXXX
+            SG_ID=sg-07a5adc398dcb56b4
             ~/bin/aws ec2 authorize-security-group-ingress --region $AWS_REGION --group-id $SG_ID \
               --protocol tcp --port 22 --cidr $PUBLIC_IP/24
             sleep 5
