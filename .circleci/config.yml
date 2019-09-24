@@ -29,7 +29,6 @@ jobs:
             - "67:02:50:27:32:6c:a1:e1:25:3f:0d:72:e5:2d:2c:7e"
       - aws-cli/setup:
           profile-name: approcket
-          aws-region: eu-central-1
       - run:
           name: Deploy
           command: |
