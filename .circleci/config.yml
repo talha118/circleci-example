@@ -42,7 +42,7 @@ jobs:
           command: |
             AWS_REGION=eu-central-1
             SG_ID=sg-07a5adc398dcb56b4
-            aws ec2 authorize-security-group-ingress --region $AWS_REGION --group-id $SG_ID \
+            aws ec2 authorize-security-group-ingress --group-id $SG_ID \
               --protocol tcp --port 22 --cidr $PUBLIC_IP/24
             sleep 5
             EC2_USERNAME=ubuntu
