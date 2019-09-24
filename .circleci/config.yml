@@ -30,8 +30,6 @@ jobs:
           command: |
             npm test
   build:
-    machine:
-      image: ubuntu-1604:201903-01
     executor: aws-cli/default
     steps:
       - checkout
