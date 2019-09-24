@@ -37,6 +37,15 @@ jobs:
       - run:
           name: Deploy
           command: |
+            curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
+            unzip awscli-bundle.zip
+            ./awscli-bundle/install -b ~/bin/aws
+            PUBLIC_IP=$(curl ipinfo.io/ip)
+            AWS_REGION=eu-central-1
+            SG_ID=sg-XXXXXXXX
+            ~/bin/aws ec2 authorize-security-group-ingress --region $AWS_REGION --group-id $SG_ID \
+              --protocol tcp --port 22 --cidr $PUBLIC_IP/24
+            sleep 5
             EC2_USERNAME=ubuntu
             EC2_PUBLIC_DNS=ec2-35-158-2-108.eu-central-1.compute.amazonaws.com
             ssh ${EC2_USERNAME}@${EC2_PUBLIC_DNS} \<< EOF
@@ -49,3 +58,5 @@ jobs:
               npm i
               pm2 start server.js
             EOF
+            ~/bin/aws ec2 revoke-security-group-ingress --region $AWS_REGION --group-id $SG_ID \
+                  --protocol tcp --port 22 --cidr $PUBLIC_IP/24
