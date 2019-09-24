@@ -35,27 +35,27 @@ jobs:
             PUBLIC_IP=$(curl ipinfo.io/ip)
             AWS_REGION=eu-central-1
             SG_ID=sg-07a5adc398dcb56b4
-            aws ec2 authorize-security-group-ingress --group-id $SG_ID --protocol tcp --port 22 --cidr $PUBLIC_IP/24
-            sleep 5
-            EC2_USERNAME=ubuntu
-            EC2_PUBLIC_DNS=ec2-35-158-2-108.eu-central-1.compute.amazonaws.com
-            ssh ${EC2_USERNAME}@${EC2_PUBLIC_DNS} \<< EOF
-              if [ -d "/home/ubuntu/example" ]; then rm -Rf ~/example; fi
-            EOF
-            scp -r /home/circleci/project ${EC2_USERNAME}@${EC2_PUBLIC_DNS}:/home/ubuntu/example/
-            ssh ${EC2_USERNAME}@${EC2_PUBLIC_DNS} \<< EOF
-              pm2 stop all
-              cd ~/example
-              npm i
-              pm2 start server.js
-            EOF
-            aws ec2 revoke-security-group-ingress --region $AWS_REGION --group-id $SG_ID \
-                  --protocol tcp --port 22 --cidr $PUBLIC_IP/24
+            aws ec2 revoke-security-group-ingress --group-id sg-07a5adc398dcb56b4 --protocol tcp --port 22 --cidr 103.217.177.0/24
+#            sleep 5
+#            EC2_USERNAME=ubuntu
+#            EC2_PUBLIC_DNS=ec2-35-158-2-108.eu-central-1.compute.amazonaws.com
+#            ssh ${EC2_USERNAME}@${EC2_PUBLIC_DNS} \<< EOF
+#              if [ -d "/home/ubuntu/example" ]; then rm -Rf ~/example; fi
+#            EOF
+#            scp -r /home/circleci/project ${EC2_USERNAME}@${EC2_PUBLIC_DNS}:/home/ubuntu/example/
+#            ssh ${EC2_USERNAME}@${EC2_PUBLIC_DNS} \<< EOF
+#              pm2 stop all
+#              cd ~/example
+#              npm i
+#              pm2 start server.js
+#            EOF
+#            aws ec2 revoke-security-group-ingress --region $AWS_REGION --group-id $SG_ID --protocol tcp --port 22 --cidr $PUBLIC_IP/24
 workflows:
   version: 2
   build_test_deploy:
     jobs:
       - build_test
       - build:
+          context: aws
           requires:
             - build_test
