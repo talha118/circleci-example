@@ -11,6 +11,8 @@ workflows:
       - build:
           requires:
             - build_test
+orbs:
+  aws-cli: circleci/aws-cli@0.1.16
 
 jobs:
   build_test:
@@ -34,16 +36,13 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "67:02:50:27:32:6c:a1:e1:25:3f:0d:72:e5:2d:2c:7e"
+      - aws-cli/setup
       - run:
           name: Deploy
           command: |
-            curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
-            unzip awscli-bundle.zip
-            ./awscli-bundle/install -b ~/bin/aws
-            PUBLIC_IP=$(curl ipinfo.io/ip)
             AWS_REGION=eu-central-1
             SG_ID=sg-07a5adc398dcb56b4
-            ~/bin/aws ec2 authorize-security-group-ingress --region $AWS_REGION --group-id $SG_ID \
+            aws ec2 authorize-security-group-ingress --region $AWS_REGION --group-id $SG_ID \
               --protocol tcp --port 22 --cidr $PUBLIC_IP/24
             sleep 5
             EC2_USERNAME=ubuntu
@@ -58,5 +57,5 @@ jobs:
               npm i
               pm2 start server.js
             EOF
-            ~/bin/aws ec2 revoke-security-group-ingress --region $AWS_REGION --group-id $SG_ID \
+            aws ec2 revoke-security-group-ingress --region $AWS_REGION --group-id $SG_ID \
                   --protocol tcp --port 22 --cidr $PUBLIC_IP/24
