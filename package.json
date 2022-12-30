@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/talha118/circleci-example#readme",
   "dependencies": {
-    "mocha": "^6.2.0"
+    "mocha": "^10.2.0"
   }
 }
